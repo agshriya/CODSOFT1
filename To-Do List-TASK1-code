@@ -1,0 +1,63 @@
+import tkinter as tk
+from tkinter import simpledialog, messagebox
+
+def add_task():
+  task=entry.get()
+  if task:
+    task_list.insert(tk.END, task)
+    entry.delete(0,tk.END)
+
+def edit_task():
+  selected_task=task_list.curselection()
+  if selected_task:
+    task_index=selected_task[0]
+    current_task=task_list.get(taask_index)
+    updated_task=simpledialog.askstring("Edit Task", "Edit Task:", initialvalue=current_task)
+    if updated_task:
+      task_list.delete(task_index)
+      task_list.insert(task_index, updated_task)
+
+def delete_task():
+  selected_task=task_list.curselection()
+  if selected_task:
+    task_list.delete(selected_task)
+
+def delete_all_tasks():
+  task_list.delete(0,tk.END)
+
+def exit_taskbox():
+  result=messagebox.askquestion("Exit", "Do you want to exit the taskbox?")
+  if result=="yes":
+    root.destroy()
+
+root=tk.Tk()
+root.title("To-Do List")
+
+title_label=tk.Label(root, text="To-Do List", font=("Helvetica", 20, "bold"))
+title_label.pack(pady=20)
+
+taskbox_frame=tk.Frame(root, bg="#f0f0f0", padx=20, pady=20)
+taskbox_frame.pack(fill=tk.BOTH, expand=True)
+
+entry=tk.Entry(taskbox_frame, font=("Helvetica", 14))
+entry.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
+
+add_button=tk.Button(taskbox_frame, text="Add Task", command=add_task, bg="#0080ff", fg="white")
+add_button.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
+
+task_list=tk.Listbox(taskbox_frame, font-("Helvetica", 14), selectmode=tk.SINGLE)
+task_list.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
+
+edit_button=tk.Button(taskbox_frame, text="Edit Task", command=edit_task, bg="#ff8000", fg="white")
+edit_button.pack(fill=tk.BOTH, expand=True, padx=20, pady=5)
+
+delete_button=tk.Button(taskbox_frame, text="Delete Task", command=delete_task, bg="#ff0000", fg="white")
+delete_button.pack(fill=tk.BOTH, expand=True, padx=20, pady=5)
+
+delete_all_button=tk.Button(taskbox_frame, text="Delete All Tasks", command=delete_all_tasks, bg="#ff0000", fg="white")
+delete_all_button.pack(fill=tk.BOTH, expand=True, padx=20, pady=5)
+
+exit_button=tk.Button(taskbox_frame, text="Exit", command=exit_taskbox, bg="#999999", fg="white")
+exit_button.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
+
+root.mainloop()
